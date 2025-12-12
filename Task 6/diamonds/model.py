@@ -50,11 +50,6 @@ def train_model():
     mape = mean_absolute_percentage_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     
-    print(f"\nМетрики качества на тестовом наборе:")
-    print(f"  Mean Absolute Error (MAE): ${mape:.2f}")
-    print(f"  R² Score: {r2:.4f}")
-    
-
     try:
         cv_pool = Pool(x, y)
         cv_results = cv(
@@ -79,29 +74,6 @@ def train_model():
     os.makedirs('models', exist_ok=True)
     model_path = 'models/trained_model.cbm'
     model.save_model(model_path)
-   
-    feature_names = x.columns.tolist()
-    with open('models/feature_names.txt', 'w') as f:
-        f.write('\n'.join(feature_names))
-    
-    metrics = {
-        'task': 'Regression',
-        'target': 'price',
-        'mape': float(mape),
-        'r2_score': float(r2),
-        'mape': float(mape),
-        'features': feature_names,
-        'n_features': len(feature_names),
-        'n_training_samples': len(x_train),
-        'n_test_samples': len(x_test),
-        'min_price': float(y.min()),
-        'max_price': float(y.max()),
-        'mean_price': float(y.mean()),
-        'feature_importance': feature_importance.to_dict('list')
-    }
-    
-    with open('models/model_metrics.json', 'w') as f:
-        json.dump(metrics, f, indent=2)
     
     return model
 
