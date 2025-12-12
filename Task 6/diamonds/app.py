@@ -19,7 +19,6 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Глобальные переменные для модели и признаков
 model = None
 feature_names = None
 model_metrics = None
@@ -31,14 +30,6 @@ def load_model():
         logger.info("Загружаем модель регрессии для цены алмазов...")
         model = CatBoostRegressor()
         model.load_model('models/trained_model.cbm')
-        
-        # Загружаем имена признаков
-        with open('models/feature_names.txt', 'r') as f:
-            feature_names = f.read().strip().split('\n')
-        
-        # Загружаем метрики модели
-        with open('models/model_metrics.json', 'r') as f:
-            model_metrics = json.load(f)
         
     except Exception as e:
         logger.error(f"Ошибка при загрузке модели: {e}")

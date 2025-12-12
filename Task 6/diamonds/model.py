@@ -11,12 +11,11 @@ import json
 def train_model():
     data = pd.read_csv('data/preprocessed_data.csv')
     
-    # Разделяем признаки и целевую переменную (ЦЕНА)
     x = data.drop(['price'], axis=1)
     y = data['price']
     
     
-    loss_function = 'RMSE'  # Используем RMSE для регрессии
+    loss_function = 'RMSE' 
     learning_rate = 0.05
     iterations = 500
     metric = 'RMSE'
